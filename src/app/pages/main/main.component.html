@@ -328,12 +328,25 @@
 
                   <p class="price-text">Price:</p>
 
-                  <data class="price">{{food.halfPrice}}</data>
+                  <data class="price">{{food.halfPrice}}</data> 
 
                   <del class="del" value="69.00">{{food.fullPrice}}</del>
 
                 </div>
-
+                <div class="priceNweight" *ngIf="food.full!==''">
+                  <span class="additionalInfo"(click)="onFoodSelection(food,'full')" [class.selected]="food.selection.fhPlate === 'full'">Full : {{food.fullPrice}}</span>
+                  <span class="additionalInfo"(click)="onFoodSelection(food,'half')" [class.selected]="food.selection.fhPlate === 'half'">Half : {{food.halfPrice}}</span>
+                </div>
+                <div class="priceNweight" *ngIf="food.weight!==''">
+                  <span class="additionalInfo"(click)="onFoodSelection(food,'full')" [class.selected]="food.selection.fhPlate === 'full'">{{food.weight}}gm : </span>
+                  <span class="additionalInfo"(click)="onFoodSelection(food,'half')" [class.selected]="food.selection.fhPlate === 'half'">{{food.weightPrice}}gm</span>
+                </div>
+                <div class="quantity">
+                  <span (click)="onChangeQuantity(food,'dec')">-</span>
+                  <input type="number" [(ngModel)]="food.selection.quantity">
+                  <span (click)="onChangeQuantity(food,'up')">+</span>
+                </div>
+                <button class="btn cart-btn" (click)="addToCart(food)">Add to Cart</button>
               </div>
             </li>
           </ul>
@@ -634,8 +647,6 @@
 
 
 
-
-
       <!-- 
         - #BLOG
       -->
@@ -800,9 +811,6 @@
 
         </div>
       </section> -->
-
-
-
 
 
     </article>

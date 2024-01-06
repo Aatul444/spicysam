@@ -13,6 +13,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { environment } from '../environments/environment';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AdminComponent } from './admin/admin/admin.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -21,7 +22,7 @@ import { AdminComponent } from './admin/admin/admin.component';
     HeaderComponent,
     FooterComponent,
     MainComponent,
-    AdminComponent
+    AdminComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,6 +33,7 @@ import { AdminComponent } from './admin/admin/admin.component';
     AngularFireStorageModule,
     AngularFireDatabaseModule,
     ReactiveFormsModule,
+    FormsModule
   ],
   
   providers: [],

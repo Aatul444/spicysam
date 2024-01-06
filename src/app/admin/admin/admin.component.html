@@ -1,1 +1,17 @@
-<p>admin works!</p>
+<div>
+    <h1>Sign In with Your Phone Number</h1>
+  
+    <label for="phone">Phone Number</label><br>
+    <input type="text" [(ngModel)]="phoneNumber" class="input" placeholder="Enter your phone number">
+  
+    <div id="recaptcha-container"></div>
+  
+    <button (click)="sendLoginCode()">Send SMS Code</button>
+  
+    <div *ngIf="windowRef.confirmationResult">
+      <hr>
+      <label for="code">Enter Verification Code</label><br>
+      <input type="text" name="code" [(ngModel)]="verificationCode">
+      <button (click)="verifyLoginCode()">Verify</button>
+    </div>
+  </div>

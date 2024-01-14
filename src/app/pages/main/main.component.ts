@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, filter, map } from 'rxjs';
 import { MenuServiceService } from '../../services/menu-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -12,7 +12,7 @@ export class MainComponent implements OnInit {
   tabs: string[] = [];
   filteredMenu: any = [];
 
-  constructor(private menuItemService: MenuServiceService) {}
+  constructor(private menuItemService: MenuServiceService, private router:Router) {}
   
   ngOnInit(): void {
     this.menuItemService.getMenuItems().subscribe((res) => {
@@ -22,7 +22,7 @@ export class MainComponent implements OnInit {
         Object.values(item).forEach((e: any) => {
           e.forEach((elm:any) => {
             elm.selection={
-              quantity:1,fhPlate:''
+              quantity:1,fhPlate:'full'
             }
           });
         });
@@ -83,5 +83,9 @@ export class MainComponent implements OnInit {
         break;
     }
    
+  }
+  orderFast(food:any){
+    this.menuItemService.cartItems.push(food);
+    this.router.navigate(['cart'])
   }
 }

@@ -12,8 +12,13 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { environment } from '../environments/environment';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AdminComponent } from './admin/admin/admin.component';
 import { FormsModule } from '@angular/forms';
+import { LoginComponent } from './pages/login/login.component';
+import { CodeComponent } from './components/code/code.component';
+import { NgOtpInputModule } from 'ng-otp-input';
+import { ScrollComponent } from './scroll.component';
+import { CartComponent } from './pages/cart/cart.component';
+// import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -22,7 +27,10 @@ import { FormsModule } from '@angular/forms';
     HeaderComponent,
     FooterComponent,
     MainComponent,
-    AdminComponent,
+    LoginComponent,
+    CodeComponent,
+    ScrollComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +41,9 @@ import { FormsModule } from '@angular/forms';
     AngularFireStorageModule,
     AngularFireDatabaseModule,
     ReactiveFormsModule,
-    FormsModule
+    // MatSnackBarModule,
+    FormsModule,
+    NgOtpInputModule
   ],
   
   providers: [],

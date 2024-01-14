@@ -302,14 +302,11 @@
             <li *ngFor="let food of filteredMenu">
               <div class="food-menu-card">
                 <div class="card-banner">
-                  <img src="{{food.image}}" width="300" height="300" loading="lazy"
-                    alt="{{food.name}}" class="w-100">
-
-                  <!-- <div class="badge">-15%</div> -->
-
-                  <button class="btn food-menu-btn">Order Now</button>
+                  <img src="{{food.image}}" loading="lazy"
+                  alt="{{food.name}}" class="w-100"> 
+                    <button class="btn food-menu-btn" (click)="orderFast(food)">Order Now</button>
                 </div>
-
+                <div class="menu_food_details">
                 <div class="wrapper">
                   <p class="category">{{food.name}}</p>
 
@@ -325,21 +322,16 @@
                 <h3 class="h3 card-title">{{food.name}}</h3>
 
                 <div class="price-wrapper">
-
                   <p class="price-text">Price:</p>
-
                   <data class="price">{{food.halfPrice}}</data> 
-
-                  <del class="del" value="69.00">{{food.fullPrice}}</del>
-
                 </div>
                 <div class="priceNweight" *ngIf="food.full!==''">
                   <span class="additionalInfo"(click)="onFoodSelection(food,'full')" [class.selected]="food.selection.fhPlate === 'full'">Full : {{food.fullPrice}}</span>
                   <span class="additionalInfo"(click)="onFoodSelection(food,'half')" [class.selected]="food.selection.fhPlate === 'half'">Half : {{food.halfPrice}}</span>
                 </div>
                 <div class="priceNweight" *ngIf="food.weight!==''">
-                  <span class="additionalInfo"(click)="onFoodSelection(food,'full')" [class.selected]="food.selection.fhPlate === 'full'">{{food.weight}}gm : </span>
-                  <span class="additionalInfo"(click)="onFoodSelection(food,'half')" [class.selected]="food.selection.fhPlate === 'half'">{{food.weightPrice}}gm</span>
+                  <span class="additionalInfo"(click)="onFoodSelection(food,'full')" [class.selected]="food.selection.fhPlate === 'full'">{{(food.weight)*2}}gm</span>
+                  <span class="additionalInfo"(click)="onFoodSelection(food,'half')" [class.selected]="food.selection.fhPlate === 'half'">{{food.weight}}gm</span>
                 </div>
                 <div class="quantity">
                   <span (click)="onChangeQuantity(food,'dec')">-</span>
@@ -348,14 +340,11 @@
                 </div>
                 <button class="btn cart-btn" (click)="addToCart(food)">Add to Cart</button>
               </div>
+            </div>
             </li>
           </ul>
         </div>
       </section>
-
-
-
-
 
       <!-- 
         - #CTA

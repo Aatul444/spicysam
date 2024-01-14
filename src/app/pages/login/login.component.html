@@ -1,0 +1,70 @@
+<div class="contain">
+  <section class="wrapper" [ngClass]="{'active': isWrapperActive}">
+    <div class="form signup" *ngIf="tab==='signup'">
+      <header (click)="toggleForm('signup')">Signup</header>
+      <form (submit)="signUp()" [formGroup]="signupForm">
+        <input type="text" placeholder="Full name" formControlName="fullName" required />
+        <!-- Display validation errors if needed -->
+        <div class="err"
+          *ngIf="signupForm.get('fullName')?.hasError('required') && signupForm.get('fullName')?.touched">
+          Full Name is required.
+        </div>
+
+        <input type="text" placeholder="Email address" formControlName="email" required />
+        <!-- Display validation errors if needed -->
+        <div class="err" *ngIf="signupForm.get('email')?.hasError('required') && signupForm.get('email')?.touched">
+          Email is required.
+        </div>
+        <div class="err" *ngIf="signupForm.get('email')?.hasError('email') && signupForm.get('email')?.touched">
+          Invalid email address.
+        </div>
+
+        <input type="password" placeholder="Password" formControlName="password" required />
+        <!-- Display validation errors if needed -->
+        <div *ngIf="signupForm.get('password')?.hasError('required') && signupForm.get('password')?.touched">
+          Password is required.
+        </div>
+        <div class="err"
+          *ngIf="signupForm.get('password')?.hasError('minlength') && signupForm.get('password')?.touched">
+          Password must be at least 6 characters.
+        </div>
+
+        <div class="checkbox">
+          <input type="checkbox" id="signupCheck" formControlName="acceptTerms" />
+          <label for="signupCheck">I accept all terms & conditions</label>
+        </div>
+        <!-- Display validation errors if needed -->
+        <div class="err"
+          *ngIf="signupForm.get('acceptTerms')?.hasError('required') && signupForm.get('acceptTerms')?.touched">
+          You must accept the terms and conditions.
+        </div>
+
+        <input type="submit" value="Signup" />
+      </form>
+      <header (click)="toggleForm('login')">Login</header>
+    </div>
+    <div class="form login" *ngIf="tab==='login'">
+      <header (click)="toggleForm('signup')">Login</header>
+      <form (submit)="signIn()" [formGroup]="loginForm">
+        <input type="text" placeholder="Email address" formControlName="email" required />
+        <div class="err" *ngIf="loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched">
+          Email is required.
+        </div>
+        <div class="err" *ngIf="loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched">
+          Invalid email address.
+        </div>
+
+        <input type="password" placeholder="Password" formControlName="password" required />
+        <div class="err" *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
+          Password is required.
+        </div>
+        <div class="err" *ngIf="loginForm.get('password')?.hasError('minlength') && loginForm.get('password')?.touched">
+          Password must be at least 6 characters.
+        </div>
+
+        <a href="#">Forgot password?</a>
+        <input type="submit" value="Login" />
+      </form>
+    </div>
+  </section>
+</div>

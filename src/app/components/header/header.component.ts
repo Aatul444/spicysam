@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MenuServiceService } from '../../services/menu-service.service';
 
 @Component({
   selector: 'app-header',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-
+constructor(public menuService: MenuServiceService){
+}
 }

@@ -11,7 +11,11 @@
             display: flex;
             justify-content: space-between;
             color: white;
-            text-decoration: underline;
+
+            .head_btn {
+                text-decoration: underline;
+                cursor: pointer;
+            }
         }
 
         .items {
@@ -52,8 +56,9 @@
                     }
 
                     .price-wrapper {
-                            display: flex;
-                            color: white;
+                        display: flex;
+                        color: white;
+
                         .price-text {}
 
                         .price {
@@ -93,6 +98,31 @@
                     }
                 }
             }
+
+            .empty_msg {
+                text-align: center;
+                color: white;
+            }
         }
+    }
+}
+.checkout_box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .checkout{
+        display: flex;
+    background: aliceblue;
+    min-width: 40%;
+    justify-content: space-between;
+    border-radius: 25px;
+    padding: 25px;
+    h2{
+        display: flex;
+        span{}
+    }
+    button{
+        border-radius: 25px;
+    }
     }
 }

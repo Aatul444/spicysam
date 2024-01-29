@@ -1,20 +1,20 @@
 <section class="section section-divider white cta"
-    style="background-image: url('./assets/images/hero-bg.jpg');padding-top: 9%;">
+    style="background-image: url('./assets/images/hero-bg.jpg'); padding-top: 9%;">
     <div class="cart">
         <div class="cartItems">
             <div class="head">
                 <span>Shopping Cart</span>
-                <span (click)="menuService.cartItems=[]">Remove All</span>
+                <span class="head_btn" (click)="clearCart()">Remove All</span>
             </div>
             <div class="items">
-                <div class="item" *ngFor="let food of menuService.cartItems; let i = index">
+                <div class="item" *ngFor="let food of cartItems; let i = index">
                     <div class="food_image">
                         <img src="{{food.image}}" loading="lazy" alt="{{food.name}}">
                     </div>
                     <div class="food_details">
                         <div class="wrapper">
                             <p class="h1 card-title">{{food.name}}</p>
-    
+
                             <div class="rating-wrapper">
                                 <ion-icon name="star"></ion-icon>
                                 <ion-icon name="star"></ion-icon>
@@ -24,21 +24,29 @@
                             </div>
                             <div class="price-wrapper">
                                 <p class="price-text">Price:</p>
-                                <data class="price">{{food.selection.fhPlate}}</data>
+                                <data class="price">{{getPrice(food)}}</data> <!-- Display the price here -->
                             </div>
                         </div>
-    
+
                         <div class="quantity">
                             <span (click)="onChangeQuantity(food, 'dec', i)">-</span>
                             <input type="number" [(ngModel)]="food.selection.quantity" disabled>
                             <span (click)="onChangeQuantity(food, 'up', i)">+</span>
                         </div>
                         <div class="quantity" style="align-items: flex-start">
-                            <button class="removeBtn" (click)="onRemoveFromCart(food,i)"><img src="assets/images/delete-button.png" alt=""></button>
+                            <button class="removeBtn" (click)="onRemoveFromCart(food, i)"><img
+                                    src="assets/images/delete-button.png" alt=""></button>
                         </div>
                     </div>
                 </div>
+                <h2 class="empty_msg" *ngIf="cartItems.length === 0">Your Cart is Empty</h2>
             </div>
+        </div>
+    </div>
+    <div class="checkout_box" *ngIf="cartItems.length !== 0">
+        <div class="checkout">
+            <h2>Total: <span>{{totalAmount}}</span></h2>
+            <button class="btn btn-hover" (click)="onOrder()">Order Now</button>
         </div>
     </div>
 </section>

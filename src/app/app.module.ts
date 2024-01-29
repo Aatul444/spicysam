@@ -18,7 +18,8 @@ import { CodeComponent } from './components/code/code.component';
 import { NgOtpInputModule } from 'ng-otp-input';
 import { ScrollComponent } from './scroll.component';
 import { CartComponent } from './pages/cart/cart.component';
-// import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { HeadTestComponent } from './components/head-test/head-test.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -30,7 +31,8 @@ import { CartComponent } from './pages/cart/cart.component';
     LoginComponent,
     CodeComponent,
     ScrollComponent,
-    CartComponent
+    CartComponent,
+    HeadTestComponent
   ],
   imports: [
     BrowserModule,
@@ -41,9 +43,9 @@ import { CartComponent } from './pages/cart/cart.component';
     AngularFireStorageModule,
     AngularFireDatabaseModule,
     ReactiveFormsModule,
-    // MatSnackBarModule,
     FormsModule,
-    NgOtpInputModule
+    NgOtpInputModule,
+    HttpClientModule
   ],
   
   providers: [],

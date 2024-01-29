@@ -1,3 +1,10 @@
 header{
     background: #1c1d1d87;
+    .navbar-list{
+        li{
+            a{
+                cursor: pointer;
+            }
+        }
+    }
 }

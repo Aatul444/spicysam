@@ -54,6 +54,7 @@ export class LoginComponent implements OnInit {
     this.signupForm = this.fb.group({
       fullName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
+      phone:['',[Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       acceptTerms: [false, Validators.requiredTrue],
     });
@@ -68,20 +69,23 @@ export class LoginComponent implements OnInit {
   }
 
   signUp() {
-    console.log(this.signupForm.value)
-    console.log(this.signupForm.valid)
+    console.log('this.signupForm',this.signupForm)
     if (this.signupForm.valid) {
       const fullName = this.signupForm.get('fullName')?.value ?? '';
       const email = this.signupForm.get('email')?.value ?? '';
+      const phone = this.signupForm.get('phone')?.value ?? '';
       const password = this.signupForm.get('password')?.value ?? '';
       const acceptTerms = this.signupForm.get('acceptTerms')?.value ?? false;
-
-      console.log(email,password)
-      // Perform signup logic
+      const data={
+        name : fullName ,
+        email : email ,
+        mobileNumber : phone ,
+        acceptTerms : acceptTerms,
+      }
       this.authService.signUp(email, password)
         .then(response => {
-          console.log('Sign-up successful!', response);
-          this.userState.showSnackBar('Sign-up successful!')
+          console.log('Sign-up successful!', data);
+          this.userState.saveUserToFirestore(data);
         })
         .catch(error => {
           console.error('Sign-up error:', error);
@@ -95,8 +99,7 @@ export class LoginComponent implements OnInit {
       this.authService.signIn(this.loginForm.value.email, this.loginForm.value.password)
         .then(response => {
           this.user = response.user
-          console.log('Sign-in successful!', response);
-          this.userState.showSnackBar('Sign-in successful!');
+          console.log('Sign-in successful!', response.user?.uid);
           this.userState.setUser(this.user);
           this.router.navigate(['/']);
         })
@@ -110,7 +113,6 @@ export class LoginComponent implements OnInit {
     this.authService.signOut()
       .then(() => {
         console.log('Sign-out successful!');
-        this.userState.showSnackBar('Sign-out successful!')
       })
       .catch(error => {
         console.error('Sign-out error:', error);

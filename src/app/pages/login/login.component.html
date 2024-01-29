@@ -11,12 +11,16 @@
         </div>
 
         <input type="text" placeholder="Email address" formControlName="email" required />
-        <!-- Display validation errors if needed -->
         <div class="err" *ngIf="signupForm.get('email')?.hasError('required') && signupForm.get('email')?.touched">
           Email is required.
         </div>
-        <div class="err" *ngIf="signupForm.get('email')?.hasError('email') && signupForm.get('email')?.touched">
-          Invalid email address.
+        <input type="text" placeholder="Mobile Number" formControlName="phone" required />
+        <div class="err"
+          *ngIf="signupForm.get('phone')?.hasError('required') && signupForm.get('phone')?.touched">
+          Full Name is required.
+        </div>
+        <div class="err" *ngIf="signupForm.get('phone')?.hasError('phone') && signupForm.get('phone')?.touched">
+          Invalid phone number.
         </div>
 
         <input type="password" placeholder="Password" formControlName="password" required />
@@ -68,3 +72,5 @@
     </div>
   </section>
 </div>
+
+<!-- <app-head-test></app-head-test> -->

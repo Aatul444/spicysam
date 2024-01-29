@@ -1,0 +1,21 @@
+<div class="head_container">
+    <div class="navBar">
+        <ul class="navBar_menu">
+            <li class="navBar_li" *ngFor="let item of head">
+                <a class="navBar_li_link">{{item.name}}</a>
+                <div class="navBar_li_container">
+                    <div class="content"*ngFor="let content of item.contents">
+                        <h2>{{content.heading}}</h2>
+                        <ul>
+                            <li *ngFor="let description of content.descriptions">
+                                <a>
+                                    {{description.title}}
+                                </a>
+                            </li>
+                        </ul>
+                    </div> 
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

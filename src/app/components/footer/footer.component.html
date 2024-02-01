@@ -13,29 +13,29 @@
 
           <ul class="social-list">
 
-            <li routerLink="/login">
-              <a class="social-link">
+            <li>
+              <a class="social-link" href="https://www.facebook.com/profile.php?id=61555214673407">
                 <ion-icon name="logo-facebook"></ion-icon>
               </a>
             </li>
 
-            <li>
+            <!-- <li>
               <a class="social-link">
                 <ion-icon name="logo-twitter"></ion-icon>
               </a>
-            </li>
+            </li> -->
 
             <li>
-              <a class="social-link">
+              <a class="social-link" href="https://www.instagram.com/spicysam786/">
                 <ion-icon name="logo-instagram"></ion-icon>
               </a>
             </li>
 
-            <li>
+            <!-- <li>
               <a class="social-link">
                 <ion-icon name="logo-pinterest"></ion-icon>
               </a>
-            </li>
+            </li> -->
 
           </ul>
 
@@ -81,23 +81,21 @@
 
         </ul>
 
-        <form action="" class="footer-form" id="tableBooking">
+        <form class="footer-form" id="tableBooking" [formGroup]="bookingForm" (ngSubmit)="submitForm()">
 
           <p class="footer-list-title">Book a Table</p>
 
           <div class="input-wrapper">
 
-            <input type="text" name="full_name" required placeholder="Your Name" aria-label="Your Name"
-              class="input-field">
+            <input type="text" name="full_name" formControlName="full_name" required placeholder="Your Name" aria-label="Your Name" class="input-field">
 
-            <input type="email" name="email_address" required placeholder="Email" aria-label="Email"
-              class="input-field">
+            <input type="email" name="email_address" formControlName="email_address" required placeholder="Email" aria-label="Email" class="input-field">
 
           </div>
 
           <div class="input-wrapper">
 
-            <select name="total_person" aria-label="Total person" class="input-field">
+            <select name="total_person" aria-label="Total person" class="input-field" formControlName="total_person">
               <option value="person">Person</option>
               <option value="2 person">2 Person</option>
               <option value="3 person">3 Person</option>
@@ -106,13 +104,13 @@
               <option value="custom">custom</option>
             </select>
 
-            <input type="date" name="booking_date" aria-label="Reservation date" class="input-field">
+            <input type="date" name="booking_date" aria-label="Reservation date" class="input-field" formControlName="booking_date">
 
           </div>
 
-          <textarea name="message" required placeholder="Message" aria-label="Message" class="input-field"></textarea>
+          <textarea name="message" required placeholder="Message" aria-label="Message" class="input-field" formControlName="message"></textarea>
 
-          <button type="submit" class="btn">Book a Table</button>
+          <button type="submit" class="btn" [disabled]="bookingForm.invalid">Book a Table</button>
 
         </form>
 

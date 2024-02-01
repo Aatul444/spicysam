@@ -60,7 +60,6 @@ export class CartComponent {
   onRemoveFromCart(food: any, index: number) {
     this.menuService.cartItems.splice(index, 1);
     this.totalAmount = this.calculateTotalAmount();
-    console.log('food', food);
   }
   getPrice(food: any): string {
     const { selection, fullPrice, halfPrice } = food;
@@ -68,9 +67,9 @@ export class CartComponent {
     const fhPlate = selection?.fhPlate || 'full';
 
     if (fhPlate === 'full') {
-      return (quantity * fullPrice).toFixed(2); // You can format the price as needed
+      return (quantity * fullPrice).toFixed(2);
     } else if (fhPlate === 'half') {
-      return (quantity * halfPrice).toFixed(2); // You can format the price as needed
+      return (quantity * halfPrice).toFixed(2);
     }
 
     return '0.00';

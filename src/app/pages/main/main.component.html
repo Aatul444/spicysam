@@ -16,7 +16,7 @@
 
             <p class="hero-text">Savor Mouthwatering Chicken Dishes at Our Friendly Non-Veg Restaurant!</p>
 
-            <button class="btn">Book A Table</button>
+            <button class="btn"><a href="#tableBooking" (click)="helper.showSuccess()">Book A Table</a></button>
 
           </div>
 
@@ -335,7 +335,7 @@
                 </div>
                 <div class="quantity">
                   <span (click)="onChangeQuantity(food,'dec')">-</span>
-                  <input type="number" [(ngModel)]="food.selection.quantity">
+                  <input type="number" [(ngModel)]="food.selection.quantity" disabled>
                   <span (click)="onChangeQuantity(food,'up')">+</span>
                 </div>
                 <button class="btn cart-btn" (click)="addToCart(food)">Add to Cart</button>

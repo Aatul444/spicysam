@@ -20,6 +20,8 @@ import { ScrollComponent } from './scroll.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { HeadTestComponent } from './components/head-test/head-test.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -35,6 +37,7 @@ import { HttpClientModule } from '@angular/common/http';
     HeadTestComponent
   ],
   imports: [
+    ToastrModule.forRoot(),
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
@@ -45,7 +48,8 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     FormsModule,
     NgOtpInputModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
   ],
   
   providers: [],

@@ -22,4 +22,7 @@ onLog(){
     this.user.setUser(null)
   }
 }
+check(){
+  console.log('check')
+}
 }

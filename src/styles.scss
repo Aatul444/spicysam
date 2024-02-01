@@ -1,3 +1,11 @@
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
+// bootstrap 4
+@import 'ngx-toastr/toastr-bs4-alert';
+// boostrap 5
+@import 'ngx-toastr/toastr-bs5-alert';
+
 /*-----------------------------------*\
   #style.css
 \*-----------------------------------*/
@@ -5,8 +13,6 @@
 /**
  * copyright 2022 codewithsadee
  */
-
-
 
 
 
@@ -744,8 +750,13 @@
     position: relative;
     // padding-block-start: 30px;
     // max-width: max-content;
-    // aspect-ratio: 1 / 1;
+    // aspect-ratio: 2 / 1;
     // margin-inline: auto;
+    height: 300px;
+    img{
+      height: 100%;
+      object-fit: cover;
+    }
   }
   
   .food-menu-card .badge {
@@ -1267,7 +1278,7 @@
     text-align: center;
   }
   
-  .copyright-link { display: inline-block; }
+  .copyright-link { display: inline-block;color:var(--deep-saffron);cursor: pointer; }
   
   .copyright-link:is(:hover, :focus) { text-decoration: underline; }
   

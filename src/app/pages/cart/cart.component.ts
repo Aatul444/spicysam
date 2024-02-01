@@ -4,6 +4,7 @@ import Razorpay from 'razorpay';
 import { RazorpayService } from '../../services/razorpay.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { UserStateService } from '../../services/user-state.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -18,7 +19,8 @@ export class CartComponent {
     public menuService: MenuServiceService,
     private firestore: AngularFirestore,
     private razorpayApiService: RazorpayService,
-    private user:UserStateService
+    private user:UserStateService,
+    private router:Router
   ) {}
   ngOnInit() {
     this.user.getUser().subscribe(res=>this.userData=res)
@@ -71,16 +73,33 @@ export class CartComponent {
 
     return '0.00';
   }
+  submitOrder(userUid: string, order: any, customerDetails: any): Promise<void> {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear().toString();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = currentDate.getDate().toString().padStart(2, '0');
+    const fullDate = `${day}-${month}-${year}`;
+    const orderId = month + '-' + year;
+    const orderIds = this.firestore.createId();
 
+    const orderRef = this.firestore.collection(`orders_${userUid}`).doc(orderId);
+  
+    return orderRef.set({
+      [fullDate]: {[orderIds]:{
+        order: order,
+        customer: customerDetails,
+      }},
+    }, { merge: true });
+  }
+  
   onOrder() {
-    //get customer
-    //get order
-    //set path
-    //upload to firebase
-    console.log(this.userData)
-    console.log(this.menuService.cartItems);
-    let userId=this.userData.uid;
-    console.log('userId',userId)
+    if(this.userData?.uid){
+      this.submitOrder(this.userData?.uid,this.cartItems,this.userData?.uid).then(res=>{console.log('Successfully uploaded')})
+      console.log('this.userData?.uid',this.userData?.uid);
+
+    }else{
+      this.router.navigate(['/login']);
+    }
   }
 
   calculateTotalAmount(): number {

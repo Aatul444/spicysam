@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuServiceService } from '../../services/menu-service.service';
 import { Router } from '@angular/router';
+import { HelperService } from '../../services/helper/helper.service';
 
 @Component({
   selector: 'app-main',
@@ -12,9 +13,9 @@ export class MainComponent implements OnInit {
   tabs: string[] = [];
   filteredMenu: any = [];
 
-  constructor(private menuItemService: MenuServiceService, private router:Router) {}
-  
+  constructor(private menuItemService: MenuServiceService, private router:Router, public helper:HelperService) {}
   ngOnInit(): void {
+    this.helper.showSuccess()
     this.menuItemService.getMenuItems().subscribe((res) => {
       this.menuItems = res;
       this.tabs = this.menuItems.map((item: {}) => Object.keys(item)[0]);
@@ -69,10 +70,9 @@ export class MainComponent implements OnInit {
 
   addToCart(food:any){
   this.menuItemService.cartItems.push(food);
-  console.log(this.menuItemService.cartItems)
   }
   onChangeQuantity(food:any,operand:string){
-    switch (operand) {
+    if(food.selection.quantity>1){switch (operand) {
       case 'dec':
         food.selection.quantity--
         break;
@@ -81,7 +81,7 @@ export class MainComponent implements OnInit {
         break;
       default:
         break;
-    }
+    }}
    
   }
   orderFast(food:any){

@@ -13,7 +13,7 @@ export class HeaderComponent {
   cartItems: any[] | undefined;
 
   constructor(
-    private menuService: MenuServiceService,
+    public menuService: MenuServiceService,
     private user: UserStateService,
     private router: Router
   ) {

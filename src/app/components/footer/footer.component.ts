@@ -22,7 +22,7 @@ bookingForm!: FormGroup<any>;
     this.bookingForm = this.fb.group({
       full_name: ['', Validators.required],
       email_address: ['', [Validators.required, Validators.email]],
-      total_person: ['person', Validators.required],
+      total_person: [1, Validators.required],
       booking_date: ['', Validators.required],
       message: ['', Validators.required],
     });
@@ -68,10 +68,11 @@ bookingForm!: FormGroup<any>;
 
     return orderRef.set(
       {
-        [fullDate]: {
+        [order.booking_date]: {
           [orderIds]: {
             order: order,
             customer: customerDetails,
+            createdDate:fullDate
           },
         },
       },

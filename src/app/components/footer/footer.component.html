@@ -94,18 +94,8 @@
           </div>
 
           <div class="input-wrapper">
-
-            <select name="total_person" aria-label="Total person" class="input-field" formControlName="total_person">
-              <option value="person">Person</option>
-              <option value="2 person">2 Person</option>
-              <option value="3 person">3 Person</option>
-              <option value="4 person">4 Person</option>
-              <option value="5 person">5 Person</option>
-              <option value="custom">custom</option>
-            </select>
-
+            <input type="number" name="total_person" aria-label="Total persone" class="input-field" formControlName="total_person"name="total_person">
             <input type="date" name="booking_date" aria-label="Reservation date" class="input-field" formControlName="booking_date">
-
           </div>
 
           <textarea name="message" required placeholder="Message" aria-label="Message" class="input-field" formControlName="message"></textarea>

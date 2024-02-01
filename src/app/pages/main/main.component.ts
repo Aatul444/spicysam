@@ -12,28 +12,34 @@ export class MainComponent implements OnInit {
   menuItems: any = [];
   tabs: string[] = [];
   filteredMenu: any = [];
+  menuTab: string = 'all';
 
-  constructor(private menuItemService: MenuServiceService, private router:Router, public helper:HelperService) {}
+  constructor(
+    private menuItemService: MenuServiceService,
+    private router: Router,
+    private helper: HelperService
+  ) {}
   ngOnInit(): void {
-    this.helper.showSuccess()
     this.menuItemService.getMenuItems().subscribe((res) => {
       this.menuItems = res;
       this.tabs = this.menuItems.map((item: {}) => Object.keys(item)[0]);
-      this.menuItems.forEach((item:any) => {
+      this.menuItems.forEach((item: any) => {
         Object.values(item).forEach((e: any) => {
-          e.forEach((elm:any) => {
-            elm.selection={
-              quantity:1,fhPlate:'full'
-            }
+          e.forEach((elm: any) => {
+            elm.selection = {
+              quantity: 1,
+              fhPlate: 'full',
+            };
           });
         });
       });
       this.onMenuSelect('all');
     });
   }
-  
+
   onMenuSelect(tab: string) {
-    this.filteredMenu=[];
+    this.menuTab = tab;
+    this.filteredMenu = [];
     switch (tab) {
       case 'all':
         this.menuItems.forEach((food: any) => {
@@ -64,28 +70,30 @@ export class MainComponent implements OnInit {
     }
   }
 
-  onFoodSelection(food:any,selection:string){
-    food.selection.fhPlate=selection
+  onFoodSelection(food: any, selection: string) {
+    food.selection.fhPlate = selection;
   }
 
-  addToCart(food:any){
-  this.menuItemService.cartItems.push(food);
-  }
-  onChangeQuantity(food:any,operand:string){
-    if(food.selection.quantity>1){switch (operand) {
-      case 'dec':
-        food.selection.quantity--
-        break;
-        case 'up':
-          food.selection.quantity++
-        break;
-      default:
-        break;
-    }}
-   
-  }
-  orderFast(food:any){
+  addToCart(food: any) {
     this.menuItemService.cartItems.push(food);
-    this.router.navigate(['cart'])
+    this.helper.showSuccess('Success', 'Added to cart');
+  }
+  onChangeQuantity(food: any, operand: string) {
+    if (food.selection.quantity >= 1) {
+      switch (operand) {
+        case 'dec':
+          food.selection.quantity--;
+          break;
+        case 'up':
+          food.selection.quantity++;
+          break;
+        default:
+          break;
+      }
+    }
+  }
+  orderFast(food: any) {
+    this.menuItemService.cartItems.push(food);
+    this.router.navigate(['cart']);
   }
 }

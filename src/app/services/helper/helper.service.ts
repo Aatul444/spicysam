@@ -7,10 +7,10 @@ import { ToastrService } from 'ngx-toastr';
 export class HelperService {
 
   constructor(private toastr: ToastrService) {}
-  showSuccess() {
-    this.toastr.success('Hello world!', 'Toastr fun!');
+  showSuccess(msg:string,desc:string) {
+    this.toastr.success(msg, desc);
   }
-  showError() {
-    this.toastr.error('You are not authorized for this action!', 'Oops!');
+  showError(msg:string,desc:string) {
+    this.toastr.error(msg, desc);
   }
 }

@@ -16,7 +16,7 @@
 
             <p class="hero-text">Savor Mouthwatering Chicken Dishes at Our Friendly Non-Veg Restaurant!</p>
 
-            <button class="btn"><a href="#tableBooking" (click)="helper.showSuccess()">Book A Table</a></button>
+            <button class="btn"><a href="#tableBooking">Book A Table</a></button>
 
           </div>
 
@@ -291,10 +291,10 @@
 
           <ul class="fiter-list">
             <li (click)="onMenuSelect('all')">
-              <button class="filter-btn  active">All</button>
+              <button class="filter-btn" [class.active]="menuTab=='all'">All</button>
             </li>
             <li *ngFor="let tab of tabs" (click)="onMenuSelect(tab)">
-              <button class="filter-btn  active">{{tab}}</button>
+              <button class="filter-btn" [class.active]="menuTab==tab">{{tab}}</button>
             </li>
           </ul>
 

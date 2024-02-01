@@ -5,6 +5,7 @@ import { RazorpayService } from '../../services/razorpay.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { UserStateService } from '../../services/user-state.service';
 import { Router } from '@angular/router';
+import { HelperService } from '../../services/helper/helper.service';
 
 @Component({
   selector: 'app-cart',
@@ -14,16 +15,17 @@ import { Router } from '@angular/router';
 export class CartComponent {
   cartItems: any[] = [];
   totalAmount = 0;
-  userData:any={}
+  userData: any = {};
   constructor(
     public menuService: MenuServiceService,
     private firestore: AngularFirestore,
     private razorpayApiService: RazorpayService,
-    private user:UserStateService,
-    private router:Router
+    private user: UserStateService,
+    private router: Router,
+    private helper : HelperService
   ) {}
   ngOnInit() {
-    this.user.getUser().subscribe(res=>this.userData=res)
+    this.user.getUser().subscribe((res) => (this.userData = res));
     this.menuService.cartItems$.subscribe((items) => {
       this.cartItems = items;
       this.totalAmount = this.calculateTotalAmount();
@@ -73,7 +75,11 @@ export class CartComponent {
 
     return '0.00';
   }
-  submitOrder(userUid: string, order: any, customerDetails: any): Promise<void> {
+  submitOrder(
+    userUid: string,
+    order: any,
+    customerDetails: any
+  ): Promise<void> {
     const currentDate = new Date();
     const year = currentDate.getFullYear().toString();
     const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
@@ -82,23 +88,39 @@ export class CartComponent {
     const orderId = month + '-' + year;
     const orderIds = this.firestore.createId();
 
-    const orderRef = this.firestore.collection(`orders_${userUid}`).doc(orderId);
-  
-    return orderRef.set({
-      [fullDate]: {[orderIds]:{
-        order: order,
-        customer: customerDetails,
-      }},
-    }, { merge: true });
-  }
-  
-  onOrder() {
-    if(this.userData?.uid){
-      this.submitOrder(this.userData?.uid,this.cartItems,this.userData?.uid).then(res=>{console.log('Successfully uploaded')})
-      console.log('this.userData?.uid',this.userData?.uid);
+    const orderRef = this.firestore
+      .collection(`orders_${userUid}`)
+      .doc(orderId);
 
-    }else{
+    return orderRef.set(
+      {
+        [fullDate]: {
+          [orderIds]: {
+            order: order,
+            customer: customerDetails,
+          },
+        },
+      },
+      { merge: true }
+    );
+  }
+
+  onOrder() {
+    if (this.userData?.uid) {
+      this.submitOrder(
+        this.userData?.uid,
+        this.cartItems,
+        this.userData?.uid
+      ).then((res) => {
+        this.helper.showSuccess('Order Placed!','Wait for Restaurant Confirmation.');
+        this.clearCart();
+        setTimeout(() => {
+          this.router.navigate(['/']);  
+        }, 2000);
+      });
+    } else {
       this.router.navigate(['/login']);
+      this.helper.showSuccess('User Needed!','Please login to continue...')
     }
   }
 

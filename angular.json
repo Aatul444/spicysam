@@ -31,7 +31,7 @@
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/ngx-toastr/toastr-bs5-alert.scss"
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           },
@@ -98,7 +98,7 @@
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/ngx-toastr/toastr-bs5-alert.scss"
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           }

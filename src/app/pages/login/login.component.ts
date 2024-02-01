@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { ScrollComponent } from '../../scroll.component';
 import { AuthService } from '../../services/auth/auth.service';
 import { UserStateService } from '../../services/user-state.service';
+import { HelperService } from '../../services/helper/helper.service';
 var config={
   apiKey: "AIzaSyDVrlLHmklvWSbVKs-Gx6GgMTpXs-q9pFw",
   authDomain: "spicy-sam-2ac84.firebaseapp.com",
@@ -46,7 +47,7 @@ export class LoginComponent implements OnInit {
   tab: 'login' | 'signup'="signup";
   signupForm: FormGroup;
   
-  constructor(private fb: FormBuilder,private authService: AuthService,private win: WindowService,  private ngZone: NgZone, private router:Router, private userState:UserStateService) {
+  constructor(private fb: FormBuilder,private authService: AuthService,private win: WindowService,  private ngZone: NgZone, private router:Router, private userState:UserStateService,private helper:HelperService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -63,7 +64,6 @@ export class LoginComponent implements OnInit {
   ngOnInit() {}
 
   toggleForm(formType: 'login' | 'signup'): void {
-    console.log('formType',formType)
     this.tab=formType;
     this.isWrapperActive=!this.isWrapperActive
   }
@@ -84,8 +84,9 @@ export class LoginComponent implements OnInit {
       }
       this.authService.signUp(email, password)
         .then(response => {
-          console.log('Sign-up successful!', data);
           this.userState.saveUserToFirestore(data);
+          this.toggleForm('login')
+          this.signupForm.reset()
         })
         .catch(error => {
           console.error('Sign-up error:', error);
@@ -95,16 +96,16 @@ export class LoginComponent implements OnInit {
 
   signIn() {
     if (this.loginForm.valid) {
-
       this.authService.signIn(this.loginForm.value.email, this.loginForm.value.password)
         .then(response => {
           this.user = response.user
-          console.log('Sign-in successful!', response.user?.uid);
+          this.helper.showSuccess('Success','Sign-up successful!')
           this.userState.setUser(this.user);
+          this.loginForm.reset();
           this.router.navigate(['/']);
         })
         .catch(error => {
-          console.error('Sign-in error:', error);
+          this.helper.showError('Error!','Error while signing in')
         });
     }
   }
@@ -112,10 +113,10 @@ export class LoginComponent implements OnInit {
   signOut() {
     this.authService.signOut()
       .then(() => {
-        console.log('Sign-out successful!');
+        this.helper.showSuccess('Success','Sign-out successful!')
       })
       .catch(error => {
-        console.error('Sign-out error:', error);
+        this.helper.showError('Sign-out error!',error)
       });
   }
 }

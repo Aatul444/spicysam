@@ -48,7 +48,7 @@ export class MainComponent implements OnInit {
           });
         });
         break;
-      case 'Chapati':
+      case 'Chapati & Rice':
         this.filteredMenu = this.menuItems[0].Chapati;
         break;
 

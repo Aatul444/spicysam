@@ -97,7 +97,7 @@ export class CartComponent {
         [fullDate]: {
           [orderIds]: {
             order: order,
-            customer: customerDetails,
+            customer: customerDetails?.uid,
           },
         },
       },
@@ -107,7 +107,7 @@ export class CartComponent {
         [fullDate]: {
           [orderIds]: {
             order: order,
-            customer: customerDetails,
+            customer: customerDetails?.uid,
           },
         },
       },
@@ -120,7 +120,7 @@ export class CartComponent {
       this.submitOrder(
         this.userData?.uid,
         this.cartItems,
-        this.userData?.uid
+        this.userData
       ).then((res) => {
         this.helper.showSuccess('Order Placed!','Wait for Restaurant Confirmation.');
         this.clearCart();

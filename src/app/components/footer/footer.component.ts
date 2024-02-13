@@ -61,7 +61,21 @@ bookingForm!: FormGroup<any>;
     const fullDate = `${day}-${month}-${year}`;
     const orderId = month + '-' + year;
     const orderIds = this.firestore.createId();
-
+    const admin_bookings = this.firestore
+    .collection(`admin_tableBookings`)
+    .doc(orderId);
+    admin_bookings.set(
+      {
+        [order.booking_date]: {
+          [orderIds]: {
+            order: order,
+            customer: customerDetails,
+            createdDate:fullDate
+          },
+        },
+      },
+      { merge: true }
+    );
     const orderRef = this.firestore
       .collection(`tableBooking_${userUid}`)
       .doc(orderId);

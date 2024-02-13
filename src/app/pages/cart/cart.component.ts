@@ -90,7 +90,18 @@ export class CartComponent {
     const orderRef = this.firestore
       .collection(`orders_${userUid}`)
       .doc(orderId);
-
+      const adminOrderRef = this.firestore
+      .collection(`admin_orders`)
+      .doc(orderId);
+      adminOrderRef.set({
+        [fullDate]: {
+          [orderIds]: {
+            order: order,
+            customer: customerDetails,
+          },
+        },
+      },
+      { merge: true })
     return orderRef.set(
       {
         [fullDate]: {

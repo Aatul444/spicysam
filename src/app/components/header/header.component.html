@@ -17,9 +17,9 @@
         </li>
 
         <li class="nav-item">
-          <a class="navbar-link" href="#contact">Contact Us{{userData?.user?.uid}}</a>
+          <a class="navbar-link" href="#contact">Contact Us</a>
         </li>
-        
+
         <li class="nav-item">
           <a routerLink="cart" class="navbar-link">Cart({{menuService.cartItems.length}})</a>
         </li>
@@ -31,7 +31,7 @@
 
     <div class="header-btn-group">
       <button class="btn btn-hover"><a href="#tableBooking">Reservation</a></button>
-      <button class="nav-toggle-btn" (click)="check()">
+      <button class="nav-toggle-btn" (click)="headToggler()">
         <span class="line top"></span>
         <span class="line middle"></span>
         <span class="line bottom"></span>
@@ -40,17 +40,53 @@
 
   </div>
 </header>
-<div class="search-container">
+<div class="search-container" [class.active]="toggler">
+  <div class="search_content">
 
-  <div class="search-box">
-    <input type="search" name="search" aria-label="Search here" placeholder="Type keywords here..."
-      class="search-input">
-
-    <button class="search-submit" aria-label="Submit search">
-      <ion-icon name="search-outline"></ion-icon>
-    </button>
+  <div class="toggler_box">
+    <img src="assets/images/close_header.svg" alt="X" (click)="headToggler()">
   </div>
+  <div class="menu_list">
+    <span class="nav-item" routerLink="/">
+      <a class="">Home</a>
+    </span>
 
-  <button class="search-close-btn" aria-label="Cancel search"></button>
+    <span class="nav-item">
+      <a class="" href="#about">About Us</a>
+    </span>
 
+    <span class="nav-item">
+      <a class="" href="#contact">Contact Us</a>
+    </span>
+
+    <span class="nav-item">
+      <a routerLink="cart" class="">Cart({{menuService.cartItems.length}})</a>
+    </span>
+  </div>
+  <div class="footer-brand">
+
+    <a href="" class="logo">Spicy-SAM<span class="span">.</span></a>
+
+    <p class="footer-text">
+      Indulge in the savory delights of our non-veg haven. Savor every bite of our delectable dishes, meticulously crafted to tantalize your taste buds. Your culinary adventure begins here.
+    </p>
+
+    <ul class="social-list">
+
+      <li>
+        <a class="social-link" href="https://www.facebook.com/profile.php?id=61555214673407">
+          <ion-icon name="logo-facebook"></ion-icon>
+        </a>
+      </li>
+
+      <li>
+        <a class="social-link" href="https://www.instagram.com/spicysam786/">
+          <ion-icon name="logo-instagram"></ion-icon>
+        </a>
+      </li>
+
+    </ul>
+
+  </div>
+</div>
 </div>

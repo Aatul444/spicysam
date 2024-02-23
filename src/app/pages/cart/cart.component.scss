@@ -126,3 +126,19 @@
     }
     }
 }
+
+/* Media query for tablets */
+@media only screen and (max-width: 768px) {
+    .cart {
+        padding: 0 10%;
+        /* Adjustments for tablet screens */
+    }
+}
+
+/* Media query for mobile devices */
+@media only screen and (max-width: 480px) {
+    .cart {
+        padding: 0 5%;
+        /* Adjustments for mobile screens */
+    }
+}

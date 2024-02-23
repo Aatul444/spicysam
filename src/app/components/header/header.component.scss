@@ -1,20 +1,66 @@
-header{
+header {
     background: #1c1d1d87;
-    .navbar-list{
-        li{
-            a{
+
+    .navbar-list {
+        li {
+            a {
                 cursor: pointer;
             }
         }
     }
 }
-.btn{
-    a{
+
+.btn {
+    a {
         width: 100%;
         height: 100%;
         justify-content: center;
         display: flex;
         align-items: center;
         scroll-behavior: smooth
+    }
+}
+
+.search-container {
+    .search_content {
+        height: 80%;
+        width: 100%;
+        position: relative;
+
+        .toggler_box {
+            position: absolute;
+            width: 100%;
+            height: 50px;
+            display: flex;
+            justify-content: end;
+
+            img {
+                width: 40px;
+                height: 40px
+            }
+
+            ;
+        }
+
+        .menu_list {
+            height: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            color: #d3d3d3;
+            flex-direction: column;
+            transition: all 0.3s ease-in-out;
+            margin-top: 12rem;
+            font-size: 4rem;
+
+            .nav-item {
+                margin-bottom: 2rem;
+            }
+        }
+
+        .footer-brand {
+            position: absolute;
+            bottom: 0;
+        }
     }
 }

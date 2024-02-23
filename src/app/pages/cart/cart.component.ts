@@ -65,8 +65,10 @@ export class CartComponent {
     const { selection, fullPrice, halfPrice } = food;
     const quantity = selection?.quantity || 1;
     const fhPlate = selection?.fhPlate || 'full';
-
+    console.log(food)
     if (fhPlate === 'full') {
+      console.log(quantity);
+      console.log(fullPrice);
       return (quantity * fullPrice).toFixed(2);
     } else if (fhPlate === 'half') {
       return (quantity * halfPrice).toFixed(2);

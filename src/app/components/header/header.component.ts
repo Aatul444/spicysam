@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class HeaderComponent {
   userData: any;
   cartItems: any[] | undefined;
-
+  toggler: boolean = false;
   constructor(
     public menuService: MenuServiceService,
     private user: UserStateService,
@@ -21,7 +21,7 @@ export class HeaderComponent {
       this.userData = res;
     });
     this.menuService.cartItems$.subscribe((items) => {
-      this.cartItems=[]
+      this.cartItems = [];
       this.cartItems = items;
     });
   }
@@ -32,8 +32,7 @@ export class HeaderComponent {
       this.user.setUser(null);
     }
   }
-  check() {
-    this.menuService.cartItems$.subscribe(r=>{console.log(r)});
-    this.menuService.getMenuItems().subscribe()
+  headToggler() {
+    this.toggler = !this.toggler;
   }
 }

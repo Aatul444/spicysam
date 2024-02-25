@@ -84,26 +84,30 @@
         <form class="footer-form" id="tableBooking" [formGroup]="bookingForm" (ngSubmit)="submitForm()">
 
           <p class="footer-list-title">Book a Table</p>
-
+        
           <div class="input-wrapper">
-
+        
             <input type="text" name="full_name" formControlName="full_name" required placeholder="Your Name" aria-label="Your Name" class="input-field">
-
+        
             <input type="email" name="email_address" formControlName="email_address" required placeholder="Email" aria-label="Email" class="input-field">
-
+        
+            <input type="number" name="mobile_number" formControlName="mobile_number" required placeholder="Mobile Number" aria-label="Mobile Number" class="input-field">
+        
+            <input type="time" name="booking_time" formControlName="booking_time" required placeholder="Booking Time" aria-label="Booking Time" class="input-field">
+        
           </div>
-
+        
           <div class="input-wrapper">
-            <input type="number" name="total_person" aria-label="Total persone" class="input-field" formControlName="total_person"name="total_person">
+            <input type="number" name="total_person" aria-label="Total persone" class="input-field" formControlName="total_person">
             <input type="date" name="booking_date" aria-label="Reservation date" class="input-field" formControlName="booking_date">
           </div>
-
+        
           <textarea name="message" required placeholder="Message" aria-label="Message" class="input-field" formControlName="message"></textarea>
-
+        
           <button type="submit" class="btn" [disabled]="bookingForm.invalid">Book a Table</button>
-
+        
         </form>
-
+        
       </div>
     </div>
 

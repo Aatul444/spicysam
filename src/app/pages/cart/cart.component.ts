@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
 import { MenuServiceService } from '../../services/menu-service.service';
 import Razorpay from 'razorpay';
 import { RazorpayService } from '../../services/razorpay.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { UserStateService } from '../../services/user-state.service';
-import { Router } from '@angular/router';
 import { HelperService } from '../../services/helper/helper.service';
-
+import { Component, OnInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -22,9 +22,14 @@ export class CartComponent {
     private razorpayApiService: RazorpayService,
     private user: UserStateService,
     private router: Router,
-    private helper : HelperService
+    private helper: HelperService
   ) {}
   ngOnInit() {
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        window.scrollTo(0, 0);
+      });
     this.user.getUser().subscribe((res) => (this.userData = res));
     this.menuService.cartItems$.subscribe((items) => {
       this.cartItems = items;
@@ -65,10 +70,7 @@ export class CartComponent {
     const { selection, fullPrice, halfPrice } = food;
     const quantity = selection?.quantity || 1;
     const fhPlate = selection?.fhPlate || 'full';
-    console.log(food)
     if (fhPlate === 'full') {
-      console.log(quantity);
-      console.log(fullPrice);
       return (quantity * fullPrice).toFixed(2);
     } else if (fhPlate === 'half') {
       return (quantity * halfPrice).toFixed(2);
@@ -76,63 +78,81 @@ export class CartComponent {
 
     return '0.00';
   }
-  submitOrder(
+  async submitOrder(
     userUid: string,
     order: any,
     customerDetails: any
   ): Promise<void> {
-    const currentDate = new Date();
-    const year = currentDate.getFullYear().toString();
-    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-    const day = currentDate.getDate().toString().padStart(2, '0');
-    const fullDate = `${day}-${month}-${year}`;
-    const orderId = month + '-' + year;
-    const orderIds = this.firestore.createId();
-
-    const orderRef = this.firestore
-      .collection(`orders_${userUid}`)
-      .doc(orderId);
-      const adminOrderRef = this.firestore
-      .collection(`admin_orders`)
-      .doc(orderId);
-      adminOrderRef.set({
-        [fullDate]: {
-          [orderIds]: {
-            order: order,
-            customer: customerDetails?.uid,
-          },
-        },
-      },
-      { merge: true })
-    return orderRef.set(
-      {
-        [fullDate]: {
-          [orderIds]: {
-            order: order,
-            customer: customerDetails?.uid,
-          },
-        },
-      },
-      { merge: true }
-    );
+    try {
+      const currentDate = new Date();
+      const year = currentDate.getFullYear().toString();
+      const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+      const day = currentDate.getDate().toString().padStart(2, '0');
+      const fullDate = `${day}-${month}-${year}`;
+      const orderId = month + '-' + year;
+      const orderIds = this.firestore.createId();
+  
+      // Fetch user details from 'users' collection
+      const userDoc$ = this.firestore.collection('users').doc(userUid).get();
+      userDoc$.subscribe((userDoc) => {
+        if (userDoc.exists) {
+          const userData = userDoc.data();
+          console.log('userData',userData)
+          const orderRef = this.firestore.collection(`orders_${userUid}`).doc(orderId);
+          const adminOrderRef = this.firestore.collection(`admin_orders`).doc(orderId);
+  
+          adminOrderRef.set(
+            {
+              [fullDate]: {
+                [orderIds]: {
+                  order: order,
+                  customer: userData,
+                },
+              },
+            },
+            { merge: true }
+          );
+  
+          // Set order data in user-specific orders collection
+          orderRef.set(
+            {
+              [fullDate]: {
+                [orderIds]: {
+                  order: order,
+                  customer: userData,
+                },
+              },
+            },
+            { merge: true }
+          );
+        } else {
+          console.error('User document not found');
+        }
+      });
+    } catch (error) {
+      console.error('Error submitting order:', error);
+      throw error; // Rethrow error for handling by the caller
+    }
   }
+  
 
   onOrder() {
     if (this.userData?.uid) {
-      this.submitOrder(
-        this.userData?.uid,
-        this.cartItems,
-        this.userData
-      ).then((res) => {
-        this.helper.showSuccess('Order Placed!','Wait for Restaurant Confirmation.');
-        this.clearCart();
-        setTimeout(() => {
-          this.router.navigate(['/']);  
-        }, 2000);
-      });
+      this.submitOrder(this.userData?.uid, this.cartItems, this.userData).then(
+        (res) => {
+          this.helper.showSuccess(
+            'Order Placed!',
+            'Wait for Restaurant Confirmation.'
+          );
+          this.clearCart();
+          setTimeout(() => {
+            this.router.navigate(['/']);
+          }, 2000);
+        }
+      );
     } else {
       this.router.navigate(['/login']);
-      this.helper.showSuccess('User Needed!','Please login to continue...')
+      this.helper.showSuccess('User Needed!', 'Please login to continue...');
     }
   }
 

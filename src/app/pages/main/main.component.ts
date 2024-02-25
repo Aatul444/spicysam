@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuServiceService } from '../../services/menu-service.service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { HelperService } from '../../services/helper/helper.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-main',
@@ -20,6 +21,11 @@ export class MainComponent implements OnInit {
     private helper: HelperService
   ) {}
   ngOnInit(): void {
+    this.router.events
+    .pipe(filter(event => event instanceof NavigationEnd))
+    .subscribe(() => {
+      window.scrollTo(0, 0);
+    });
     this.menuItemService.getMenuItems().subscribe((res) => {
       this.menuItems = res;
       this.tabs = this.menuItems.map((item: {}) => Object.keys(item)[0]);

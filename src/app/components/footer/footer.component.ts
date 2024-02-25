@@ -8,20 +8,26 @@ import { HelperService } from '../../services/helper/helper.service';
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss']
+  styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent {
   userData: any = {};
-bookingForm!: FormGroup<any>;
-  constructor(private firestore: AngularFirestore,
+  bookingForm!: FormGroup<any>;
+  constructor(
+    private firestore: AngularFirestore,
     private fb: FormBuilder,
     private user: UserStateService,
     private router: Router,
-    private helper : HelperService
-    ){
+    private helper: HelperService
+  ) {
     this.bookingForm = this.fb.group({
       full_name: ['', Validators.required],
       email_address: ['', [Validators.required, Validators.email]],
+      mobile_number: [
+        '',
+        [Validators.required, Validators.pattern('[0-9]{10}')],
+      ],
+      booking_time: ['', Validators.required],
       total_person: [1, Validators.required],
       booking_date: ['', Validators.required],
       message: ['', Validators.required],
@@ -37,60 +43,73 @@ bookingForm!: FormGroup<any>;
         this.bookingForm.value,
         this.userData?.uid
       ).then((res) => {
-        this.helper.showSuccess('Table Booked!','Wait for Restaurant Confirmation.');
+        this.helper.showSuccess(
+          'Table Booked!',
+          'Wait for Restaurant Confirmation.'
+        );
         setTimeout(() => {
-          this.router.navigate(['/']);  
+          this.router.navigate(['/']);
         }, 2000);
       });
       this.bookingForm.reset();
     } else {
       this.router.navigate(['/login']);
-      this.helper.showSuccess('User Needed!','Please login to continue...')
+      this.helper.showSuccess('User Needed!', 'Please login to continue...');
     }
   }
-  
-  submitBooking(
+
+  async submitBooking(
     userUid: string,
     order: any,
     customerDetails: any
   ): Promise<void> {
-    const currentDate = new Date();
-    const year = currentDate.getFullYear().toString();
-    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-    const day = currentDate.getDate().toString().padStart(2, '0');
-    const fullDate = `${day}-${month}-${year}`;
-    const orderId = month + '-' + year;
-    const orderIds = this.firestore.createId();
-    const admin_bookings = this.firestore
-    .collection(`admin_tableBookings`)
-    .doc(orderId);
-    admin_bookings.set(
-      {
-        [order.booking_date]: {
-          [orderIds]: {
-            order: order,
-            customer: customerDetails,
-            createdDate:fullDate
+    try {
+      const currentDate = new Date();
+      const year = currentDate.getFullYear().toString();
+      const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+      const day = currentDate.getDate().toString().padStart(2, '0');
+      const fullDate = `${day}-${month}-${year}`;
+      const orderId = month + '-' + year;
+      const orderIds = this.firestore.createId();
+  
+      const userDoc = await this.firestore.collection('users').doc(userUid).get().toPromise();
+  
+      if (userDoc?.exists) {
+        const userData = userDoc.data();
+        const admin_bookings = this.firestore.collection(`admin_tableBookings`).doc(orderId);
+        await admin_bookings.set(
+          {
+            [order.booking_date]: {
+              [orderIds]: {
+                order: order,
+                customer: userData,
+                createdDate: fullDate,
+              },
+            },
           },
-        },
-      },
-      { merge: true }
-    );
-    const orderRef = this.firestore
-      .collection(`tableBooking_${userUid}`)
-      .doc(orderId);
-
-    return orderRef.set(
-      {
-        [order.booking_date]: {
-          [orderIds]: {
-            order: order,
-            customer: customerDetails,
-            createdDate:fullDate
+          { merge: true }
+        );
+  
+        const orderRef = this.firestore.collection(`tableBooking_${userUid}`).doc(orderId);
+        await orderRef.set(
+          {
+            [order.booking_date]: {
+              [orderIds]: {
+                order: order,
+                customer: userData,
+                createdDate: fullDate,
+              },
+            },
           },
-        },
-      },
-      { merge: true }
-    );
+          { merge: true }
+        );
+      } else {
+        console.error('User document not found');
+      }
+    } catch (error) {
+      console.error('Error submitting booking:', error);
+      throw error; // Rethrow error for handling by the caller
+    }
   }
+  
 }

@@ -93,6 +93,7 @@ export class LoginComponent implements OnInit {
       const password = this.signupForm.get('password')?.value ?? '';
       const acceptTerms = this.signupForm.get('acceptTerms')?.value ?? false;
       const data = {
+        uid: '',
         name: fullName,
         email: email,
         mobileNumber: phone,
@@ -101,23 +102,32 @@ export class LoginComponent implements OnInit {
       this.authService
         .signUp(email, password)
         .then((response) => {
-          this.userState.saveUserToFirestore(data);
-          this.toggleForm('login');
-          this.signupForm.reset();
+          if (response.user) {
+            const user = response.user;
+            data.uid = user.uid; 
+            console.log('response', response);
+            this.userState.saveUserToFirestore(data);
+            this.toggleForm('login');
+            this.signupForm.reset();
+          } else {
+            console.error('Sign-up error: User object is null');
+          }
         })
         .catch((error) => {
           console.error('Sign-up error:', error);
         });
     }
   }
+  
 
   signIn() {
     if (this.loginForm.valid) {
       this.authService
         .signIn(this.loginForm.value.email, this.loginForm.value.password)
         .then((response) => {
+          console.log('response',response)
           this.user = response.user;
-          this.helper.showSuccess('Success', 'Sign-up successful!');
+          this.helper.showSuccess('Success', 'Sign-in successful!');
           this.userState.setUser(this.user);
           this.loginForm.reset();
           this.router.navigate(['/']);

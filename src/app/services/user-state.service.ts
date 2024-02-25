@@ -21,13 +21,14 @@ export class UserStateService {
 
   saveUserToFirestore(user: any) {
     const userCollection = this.firestore.collection('users');
-    userCollection.add(user)
-      .then(docRef => {
-        this.helper.showSuccess('Success','Sign-up successful!')
-        console.log('User document added with ID:', docRef.id);
+    const userDoc = userCollection.doc(user.uid); // Use user's UID as document ID
+    userDoc.set(user) // Set the user data with the user's UID as document ID
+      .then(() => {
+        this.helper.showSuccess('Success','Sign-up successful!');
+        console.log('User document added with ID:', user.uid); // User's UID is the document ID
       })
       .catch(error => {
-        this.helper.showError('Error!','Error while creating user')
+        this.helper.showError('Error!','Error while creating user');
       });
   }
 }

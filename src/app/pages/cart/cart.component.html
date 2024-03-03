@@ -33,7 +33,7 @@
                             <input type="number" [(ngModel)]="food.selection.quantity" disabled>
                             <span (click)="onChangeQuantity(food, 'up', i)">+</span>
                         </div>
-                        <div class="quantity" style="align-items: flex-start">
+                        <div class="quantity remove_btn" style="align-items: flex-start">
                             <button class="removeBtn" (click)="onRemoveFromCart(food, i)"><img
                                     src="assets/images/delete-button.png" alt=""></button>
                         </div>

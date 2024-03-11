@@ -131,10 +131,9 @@ export class CartComponent {
       });
     } catch (error) {
       console.error('Error submitting order:', error);
-      throw error; // Rethrow error for handling by the caller
+      throw error;
     }
   }
-  
 
   onOrder() {
     if (this.userData?.uid) {
@@ -146,6 +145,7 @@ export class CartComponent {
           );
           this.clearCart();
           setTimeout(() => {
+            window.location.reload();
             this.router.navigate(['/']);
           }, 2000);
         }

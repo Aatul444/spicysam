@@ -3,7 +3,6 @@
     "site": "spicysam",
     "public": "dist/spicysam/browser",
     "ignore": [
-      "firebase.json",
       "**/.*",
       "**/node_modules/**"
     ],
